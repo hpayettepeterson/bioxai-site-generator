@@ -85,7 +85,8 @@ function readForm() {
     state.cityName = val('cityName');
     state.eventDate = val('eventDate');
     state.tagline = val('tagline');
-    state.backgroundUrl = val('backgroundSelect');
+    const bgVal = val('backgroundSelect');
+    state.backgroundUrl = bgVal ? `https://hpayettepeterson.github.io/bioxai-site-generator/${bgVal}` : '';
 
     state.showApplyButton = checked('showApply');
     state.applyUrl = val('applyUrl');
