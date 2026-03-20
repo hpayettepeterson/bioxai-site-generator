@@ -556,6 +556,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === e.currentTarget) hideCodeModal();
     });
 
+    // Random default background
+    const bgSelect = document.getElementById('backgroundSelect');
+    const bgOptions = Array.from(bgSelect.options).filter(o => o.value);
+    bgSelect.value = bgOptions[Math.floor(Math.random() * bgOptions.length)].value;
+
     // Initial preview
     readForm();
     updatePreview();
