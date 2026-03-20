@@ -1,30 +1,38 @@
 import { generateHTML } from './template.js';
 
-// Default FAQ questions from the playbook
+// Default FAQ questions — wording adapted from the Berlin edition
 const DEFAULT_FAQS = [
     {
-        question: 'Do I need a biology/life sciences background to participate?',
-        answer: 'No — we want a mix of backgrounds. If you\'re a strong engineer, designer, or data scientist, your skills are just as valuable. Teams are interdisciplinary by design.'
+        question: 'Do I need a biology or life sciences background to participate?',
+        answer: 'No! We\'re looking for a mix of profiles: biology/life sciences expertise, computational/AI skills, and other complementary backgrounds (design, product, business). Each team will ideally have both bio and tech talent. If you\'re a strong builder or scientist in any relevant area, apply.'
     },
     {
         question: 'Can I apply as an individual or do I need a team?',
-        answer: 'Both work. You can apply as an individual or with a pre-formed team of up to 5. Individual applicants will be connected with other accepted participants to form teams before the event.'
+        answer: 'Both work. You can apply with a pre-formed team (max 5 people) or as an individual. After acceptances go out, we\'ll facilitate virtual team matching so individuals can find teammates with complementary skills before the event.'
     },
     {
         question: 'Do I have to choose a challenge track in advance?',
-        answer: 'You\'ll indicate your preferences when applying, and you\'ll be assigned to a track based on capacity and fit. The specific challenge details are only revealed on the day of the event.'
+        answer: 'In the application, you\'ll indicate which track(s) you\'re most interested in. You can select just one if you have a strong preference, or multiple if you\'re open. Since we need to keep teams roughly balanced across tracks, if you select multiple we may assign you to one based on capacity. You\'ll know your track assignment before the event, but the specific challenge details won\'t be revealed until the day of.'
     },
     {
         question: 'Will you cover travel costs?',
-        answer: 'Yes — we offer travel grants of up to €300 for participants traveling from outside the host city. You can apply for a travel grant as part of the application.'
+        answer: 'We plan to help cover travel costs for as many accepted participants as we can coming from outside the host city. More details to come!'
     },
     {
         question: 'What\'s the time commitment?',
-        answer: 'The hack runs for about 24 hours: arrive Friday afternoon, hack from Friday evening through Saturday afternoon. Saturday evening is the public showcase and afterparty.'
+        answer: 'Arrive Friday afternoon for registration and challenge briefings. The hack runs for 24 hours (Friday afternoon → Saturday afternoon). Pitch showcase, networking and afterparty on Saturday evening (attendance expected). During the hack, you\'re welcome to leave to sleep or stay and work through the night, whatever works for you.'
     },
     {
         question: 'When will the specific challenges be revealed?',
-        answer: 'Challenge details are revealed at the kickoff on Friday. Track topics are announced in advance so applicants know the general areas, but the specific problems are kept secret until the event to keep the playing field level.'
+        answer: 'All participants will receive the specific challenges at the same time on the day of the hackathon, during the challenge briefing session on Friday afternoon. This ensures a level playing field; no one gets a head start. You\'ll know the broad track areas in advance so you can choose which track interests you, but the detailed problem statements stay under wraps until kickoff.'
+    },
+    {
+        question: 'How many winners will there be?',
+        answer: 'There will be a winning team for each challenge track, plus one overall hackathon winner selected from all participants. The overall winner may or may not also be a track winner.'
+    },
+    {
+        question: 'What do the winners get?',
+        answer: 'Prizes vary by edition — check the Prizes section above for details. But winner or not, every participant walks away with hands-on experience, connections to top scientists, engineers, VCs, and founders, access to an incredible bio × AI network across Europe, and some crazy stories.'
     }
 ];
 
@@ -383,6 +391,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init challenges
     renderChallenges();
+
+    // Render default "What to Expect" items
+    const defaultExpectItems = [
+        '~XX participants, a mix of top scientific and technical talent from [city] and across Europe',
+        'Hacking from Friday afternoon to Saturday afternoon, in-person at [venue]',
+        'Public pitch event, networking and afterparty Saturday evening'
+    ];
+    const expectContainer = document.getElementById('expectItems');
+    defaultExpectItems.forEach(text => {
+        const div = document.createElement('div');
+        div.className = 'repeatable-item';
+        div.style.display = 'flex';
+        div.style.gap = '0.5rem';
+        div.style.alignItems = 'center';
+        div.innerHTML = `<input type="text" style="flex:1;padding:0.5rem 0.75rem;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:0.8rem;font-family:inherit;" value="${attr(text)}">
+            <button class="remove-btn" onclick="this.parentElement.remove(); readFormAndUpdate();">×</button>`;
+        expectContainer.appendChild(div);
+    });
+    bindInputs(expectContainer);
 
     // Render default FAQs
     const faqContainer = document.getElementById('faqItems');
