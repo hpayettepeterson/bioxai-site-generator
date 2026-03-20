@@ -55,6 +55,8 @@ let state = {
     challengeCount: 3,
     challenges: [],
     showMoreTBA: false,
+    showJudges: false,
+    judges: [],
     showPrizes: false,
     prizes: [],
     showPartners: false,
@@ -105,6 +107,9 @@ function readForm() {
     state.challengeCount = parseInt(val('challengeCount')) || 3;
     state.challenges = readChallenges();
     state.showMoreTBA = checked('showMoreTBA');
+
+    state.showJudges = checked('showJudges');
+    state.judges = readJudges();
 
     state.showPrizes = checked('showPrizes');
     state.prizes = readRepeatables('prizes', ['name', 'logoUrl', 'url', 'description']);
@@ -175,6 +180,77 @@ function readListItems(containerId) {
     if (!container) return [];
     const inputs = container.querySelectorAll('input[type="text"]');
     return Array.from(inputs).map(i => i.value).filter(v => v.trim());
+}
+
+function readJudges() {
+    const container = document.getElementById('judges');
+    if (!container) return [];
+    const items = container.querySelectorAll('.repeatable-item');
+    return Array.from(items).map(item => {
+        return {
+            name: item.querySelector('[data-field="name"]')?.value || '',
+            title: item.querySelector('[data-field="title"]')?.value || '',
+            photoUrl: item.querySelector('[data-field="photoUrl"]')?.value || '',
+            linkedinUrl: item.querySelector('[data-field="linkedinUrl"]')?.value || '',
+            orgLogoUrl: item.querySelector('[data-field="orgLogoUrl"]')?.value || '',
+            isTBA: item.querySelector('[data-field="isJudgeTBA"]')?.checked || false
+        };
+    });
+}
+
+function judgeItemHTML(judge) {
+    return `<div class="repeatable-item">
+        <div class="item-header"><span>${judge.name || 'Judge'}</span><button class="remove-btn" onclick="this.closest('.repeatable-item').remove(); readFormAndUpdate();">×</button></div>
+        <div class="tba-toggle">
+            <input type="checkbox" data-field="isJudgeTBA" ${judge.isTBA ? 'checked' : ''}>
+            <label>TBA Placeholder</label>
+        </div>
+        <div class="judge-fields" ${judge.isTBA ? 'style="display:none"' : ''}>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" data-field="name" value="${attr(judge.name)}" placeholder="Full name">
+            </div>
+            <div class="form-group">
+                <label>Title & Organization</label>
+                <input type="text" data-field="title" value="${attr(judge.title)}" placeholder="e.g. VP Health, Merantix">
+            </div>
+            <div class="form-group">
+                <label>Photo URL</label>
+                <input type="url" data-field="photoUrl" value="${attr(judge.photoUrl)}" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>LinkedIn URL (optional)</label>
+                <input type="url" data-field="linkedinUrl" value="${attr(judge.linkedinUrl)}" placeholder="https://linkedin.com/in/...">
+            </div>
+            <div class="form-group">
+                <label>Org Logo URL (optional)</label>
+                <input type="url" data-field="orgLogoUrl" value="${attr(judge.orgLogoUrl)}" placeholder="https://...">
+            </div>
+        </div>
+    </div>`;
+}
+
+function addJudge() {
+    const container = document.getElementById('judges');
+    const div = document.createElement('div');
+    div.innerHTML = judgeItemHTML({ name: '', title: '', photoUrl: '', linkedinUrl: '', orgLogoUrl: '', isTBA: false });
+    container.appendChild(div.firstElementChild);
+    bindInputs(container);
+    bindJudgeTBA(container);
+    scheduleUpdate();
+}
+
+function bindJudgeTBA(container) {
+    container.querySelectorAll('[data-field="isJudgeTBA"]').forEach(cb => {
+        if (cb.dataset.judgeTbaBound) return;
+        cb.dataset.judgeTbaBound = '1';
+        cb.addEventListener('change', () => {
+            const fields = cb.closest('.repeatable-item').querySelector('.judge-fields');
+            if (fields) fields.style.display = cb.checked ? 'none' : '';
+            readForm();
+            scheduleUpdate();
+        });
+    });
 }
 
 // Render dynamic form parts
@@ -447,6 +523,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('addExpectItem').addEventListener('click', addExpectItem);
+
+    document.getElementById('addJudge').addEventListener('click', addJudge);
 
     document.getElementById('addPrize').addEventListener('click', () => {
         addRepeatableItem('prizes',

@@ -264,6 +264,115 @@ export function generateHTML(config) {
             color: var(--white-50);
         }
 
+        /* Judges Section */
+        .judges-section {
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.9s forwards;
+        }
+
+        .judges-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .judge-card {
+            text-align: center;
+            width: 160px;
+        }
+
+        .judge-photo-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--white-50);
+            transition: border-color 0.3s ease;
+        }
+
+        .judge-photo-wrapper:hover {
+            border-color: var(--white);
+        }
+
+        .judge-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .judge-photo-wrapper:hover .judge-photo {
+            filter: grayscale(0%);
+        }
+
+        .judge-name {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+        }
+
+        .judge-name a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .judge-name a:hover {
+            opacity: 0.7;
+        }
+
+        .judge-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--white-70);
+            line-height: 1.5;
+        }
+
+        .judge-org-logo {
+            height: 28px;
+            width: auto;
+            max-width: 120px;
+            margin-top: 0.75rem;
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+            object-fit: contain;
+        }
+
+        .judge-tba {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px dashed var(--white-50);
+            margin: 0 auto 1rem;
+        }
+
+        .judge-tba-text {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--white-50);
+        }
+
         /* Prizes Section */
         .prizes-section {
             margin-top: 2rem;
@@ -499,6 +608,9 @@ export function generateHTML(config) {
             .faq-answer-content { font-size: 0.75rem; padding: 0 1.25rem 1rem 1.25rem; }
             .prize-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
             .prize-item a { width: auto; }
+            .judges-grid { gap: 1.5rem; }
+            .judge-card { width: 130px; }
+            .judge-photo-wrapper, .judge-tba { width: 80px; height: 80px; }
         }
     </style>
 </head>
@@ -554,6 +666,26 @@ ${config.showMoreTBA ? `                <div class="challenge-card">
                     <p class="challenge-partner-label">&nbsp;</p>
                     <p class="challenge-tba">Coming soon</p>
                 </div>` : ''}
+            </div>
+        </div>
+` : ''}
+${config.showJudges && config.judges?.length ? `        <!-- Judges -->
+        <div class="judges-section">
+            <p class="section-label">Judges</p>
+            <div class="judges-grid">
+${config.judges.map(j => j.isTBA ? `                <div class="judge-card">
+                    <div class="judge-tba">
+                        <span class="judge-tba-text">TBA</span>
+                    </div>
+                    <p class="judge-name">TBA</p>
+                </div>` : `                <div class="judge-card">
+                    <div class="judge-photo-wrapper">
+${j.photoUrl ? `                        <img src="${escapeHtml(j.photoUrl)}" alt="${escapeHtml(j.name)}" class="judge-photo">` : ''}
+                    </div>
+${j.linkedinUrl ? `                    <p class="judge-name"><a href="${escapeHtml(j.linkedinUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(j.name)}</a></p>` : `                    <p class="judge-name">${escapeHtml(j.name)}</p>`}
+                    <p class="judge-title">${escapeHtml(j.title)}</p>
+${j.orgLogoUrl ? `                    <img src="${escapeHtml(j.orgLogoUrl)}" alt="" class="judge-org-logo">` : ''}
+                </div>`).join('\n')}
             </div>
         </div>
 ` : ''}
