@@ -519,7 +519,7 @@ ${config.orgLogos.map(logo => `            <a href="${escapeHtml(logo.url)}" tar
 ` : ''}
         <h1>${escapeHtml(config.cityName)} Bio × AI Hackathon</h1>
 
-        <p class="info">${escapeHtml(config.tagline || '')}</p>
+        <p class="info">${[config.eventDate, config.tagline].filter(Boolean).map(escapeHtml).join(' · ')}</p>
 
         <div class="divider"></div>
 
