@@ -15,7 +15,8 @@ export function generateHTML(config) {
     <meta name="twitter:title" content="${escapeHtml(config.cityName)} Bio × AI Hackathon">
     <meta name="twitter:description" content="${escapeHtml(config.tagline || '')}">
     <meta name="description" content="${escapeHtml(config.cityName)} Bio × AI Hackathon${config.tagline ? ' — ' + escapeHtml(config.tagline) : ''}">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+    <link rel="icon" type="image/png" href="https://bioxai.eu/assets/favicon.png">
+    <link rel="apple-touch-icon" href="https://bioxai.eu/assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
