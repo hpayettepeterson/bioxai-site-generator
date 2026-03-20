@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio × AI Hackathon — Landing Page Generator</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar / Form -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Bio × AI Landing Page Generator</h1>
+                <p>Build a landing page for your hackathon edition. <a href="https://bioxai.eu/playbook.html" target="_blank">Read the Playbook</a></p>
+            </div>
+
+            <!-- Event Info (always visible) -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Event Info</h2>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="form-group">
+                        <label>City Name</label>
+                        <input type="text" id="cityName" placeholder="e.g. Berlin, Munich, Paris">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Date / Tagline</label>
+                        <input type="text" id="eventDate" placeholder="e.g. March 14–15, 2026">
+                    </div>
+                    <div class="form-group">
+                        <label>Info Text</label>
+                        <input type="text" id="tagline" placeholder="e.g. 24 hours to solve real problems in bio × AI">
+                    </div>
+                    <div class="form-group">
+                        <label>Background Image</label>
+                        <select id="backgroundSelect">
+                            <option value="">Default gradient</option>
+                            <option value="https://res.cloudinary.com/drsskez9n/image/upload/v1773397534/hpayettepeterson_website_background_gradient_cyberpunk_matrix-i_250c933d-6ce7-4f3d-82e8-82f806794d82_ih7rgt_vvfk7t.png">Berlin (purple/blue)</option>
+                        </select>
+                        <p class="help-text">More background options coming soon</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Link -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Application Link</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showApply">
+                            <label for="showApply">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="form-group">
+                        <label>Application URL</label>
+                        <input type="url" id="applyUrl" placeholder="https://your-form-url.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Signup -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Email Signup</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showSignup">
+                            <label for="showSignup">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="form-group">
+                        <label>Signup Text</label>
+                        <input type="text" id="signupText" value="Leave your email to get updates and hear when applications open.">
+                    </div>
+                    <div class="form-group">
+                        <label>Tally Form URL</label>
+                        <input type="url" id="tallyUrl" placeholder="https://tally.so/embed/...">
+                        <p class="help-text">Create a free form at <a href="https://tally.so" target="_blank" style="color:var(--accent)">tally.so</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Organizer Logos -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Organizer Logos</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showOrgLogos">
+                            <label for="showOrgLogos">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div id="orgLogos"></div>
+                    <button class="add-btn" id="addOrgLogo">+ Add Logo</button>
+                </div>
+            </div>
+
+            <!-- What to Expect -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>What to Expect</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showExpect">
+                            <label for="showExpect">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div id="expectItems"></div>
+                    <button class="add-btn" id="addExpectItem">+ Add Item</button>
+                </div>
+            </div>
+
+            <!-- Challenge Tracks -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Challenge Tracks</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showChallenges">
+                            <label for="showChallenges">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="form-group">
+                        <label>Number of Tracks</label>
+                        <select id="challengeCount">
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div id="challengeTracks"></div>
+                    <div class="inline-toggle">
+                        <input type="checkbox" id="showMoreTBA">
+                        <label for="showMoreTBA">Add "More TBA" card</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prizes -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Prizes</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showPrizes">
+                            <label for="showPrizes">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div id="prizes"></div>
+                    <button class="add-btn" id="addPrize">+ Add Prize</button>
+                </div>
+            </div>
+
+            <!-- Partners -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Partners</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showPartners">
+                            <label for="showPartners">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem;">Add partners by tier. Logos will be displayed as white (inverted) on the page.</p>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.7rem;font-weight:600;color:var(--text-heading);text-transform:uppercase;letter-spacing:0.03em;">Compute Partner</label>
+                        <div id="computePartners" style="margin-top:0.3rem;"></div>
+                        <button class="add-btn" id="add_computePartners">+ Add</button>
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.7rem;font-weight:600;color:var(--text-heading);text-transform:uppercase;letter-spacing:0.03em;">Gold Partners</label>
+                        <div id="goldPartners" style="margin-top:0.3rem;"></div>
+                        <button class="add-btn" id="add_goldPartners">+ Add</button>
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.7rem;font-weight:600;color:var(--text-heading);text-transform:uppercase;letter-spacing:0.03em;">Silver Partners</label>
+                        <div id="silverPartners" style="margin-top:0.3rem;"></div>
+                        <button class="add-btn" id="add_silverPartners">+ Add</button>
+                    </div>
+
+                    <div>
+                        <label style="font-size:0.7rem;font-weight:600;color:var(--text-heading);text-transform:uppercase;letter-spacing:0.03em;">Bronze Partners</label>
+                        <div id="bronzePartners" style="margin-top:0.3rem;"></div>
+                        <button class="add-btn" id="add_bronzePartners">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>FAQ</h2>
+                    <div class="section-header-controls">
+                        <div class="visibility-toggle">
+                            <input type="checkbox" id="showFAQ" checked>
+                            <label for="showFAQ">Show</label>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem;">Pre-populated with standard questions from the playbook. Edit or remove as needed.</p>
+                    <div id="faqItems"></div>
+                    <button class="add-btn" id="addFAQ">+ Add Question</button>
+                </div>
+            </div>
+
+            <!-- Footer / Legal -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Footer / Legal Links</h2>
+                    <span class="section-toggle">▼</span>
+                </div>
+                <div class="section-body">
+                    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem;">Bio × AI branding is included automatically. Add your own legal links below (optional).</p>
+                    <div id="legalLinks"></div>
+                    <button class="add-btn" id="addLegalLink">+ Add Link</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+            <div class="preview-toolbar">
+                <div class="preview-toolbar-left">
+                    <h2>Preview</h2>
+                </div>
+                <div class="preview-toolbar-actions">
+                    <button class="toolbar-btn primary" id="showCodeBtn">Get HTML Code</button>
+                </div>
+            </div>
+            <iframe id="previewFrame" class="preview-frame"></iframe>
+        </div>
+    </div>
+
+    <!-- Code Modal -->
+    <div class="code-modal" id="codeModal">
+        <div class="code-modal-content">
+            <div class="code-modal-header">
+                <h3>Generated HTML</h3>
+                <button id="closeModal">×</button>
+            </div>
+            <div class="code-modal-body">
+                <pre><code id="codeOutput"></code></pre>
+            </div>
+            <div class="code-modal-footer">
+                <button class="toolbar-btn" id="closeModalBottom">Close</button>
+                <button class="toolbar-btn primary" id="copyBtn">Copy HTML</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="generator.js"></script>
+</body>
+</html>
